@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="en">
+   <head>
+      <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+      <title>Weather Display</title>
+      <style>
+         body {
+            font-family:"Press Start 2P"; font-size: 96px;
+         }
+      </style>
+   </head>
+   <body>
+      <div id=p1>
+            Reaching data...
+      </div>
+      <div id=p2>
+            Reaching data...
+      </div>
+      <script language="javascript">
+         function sleep(ms) {
+               return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            async function get_data() {
+            while(true) {
+            const get_weather_data = () => {
+               const xhr = new XMLHttpRequest();
+               xhr.open("GET", "https://api.openweathermap.org/data/2.5/weather?appid=__yourappid__&id=658225&units=metric", true);
+               xhr.onload = () => {
+                  weather_data = xhr.response
+                  console.log(weather_data)
+                  const obj = JSON.parse(weather_data);
+                  document.getElementById("p1").innerHTML = Math.round(obj.main.temp) + " " + "°C";
+                  document.getElementById("p2").innerHTML = Math.round(obj.wind.speed) + " " + "m/s";
+                  document.body.style.backgroundImage = "url('./backgrounds/" + obj.weather[0].icon + ".png')";
+                  document.body.style.backgroundRepeat = "no-repeat";
+                  document.body.style.backgroundAttachment = "fixed";
+                  document.body.style.backgroundSize = "100% 100%"
+               }
+               xhr.send();
+            };
+            get_weather_data()
+            await sleep(60000);
+            }
+         }
+         get_data();
+      </script>
+   </body>
+</html>

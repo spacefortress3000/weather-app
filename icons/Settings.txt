@@ -1,0 +1,2 @@
+<img src='./icons/thermometer.png'/>
+<img src='./icons/wind.png'/>
